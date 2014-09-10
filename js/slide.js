@@ -1,33 +1,42 @@
 $(document).ready(function() {
+
+
+
+    var tag = '';
     getSearch();
 
 
-
     function getSearch(){
-        $('form').('submit', function(event) {
+        $('form').on('submit', function(event) {
             event.preventDefault();
-            addValue(); //calling function below
+            getUrl();
 
         })
     };
 
     function addValue(){ //gathering data from input
         var tag = $('#pSearch').val();
-
-        $('#imageList').html("<a href=" + getFlickrUrl() + "</a>");
-
+            console.log(tag);
+        var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=7989f169792087e68078d4ade4fe8082&tags=' + tag + '&per_page=5&page=1&format=json&jsoncallback=?';
+            console.log(url);
+        return url
     }
 
-    var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=7989f169792087e68078d4ade4fe8082&tags=' + tag + '&format=json&jsoncallback=?';
 
-    $.getJSON(url, function(data){
-        data.photos.photo.forEach(function(o){
-            console.log(getFlickrUrl(o))
+    function getUrl(){
+        var url = addValue();
+        console.log(url);
+        $.getJSON(url, function(data){
+            data.photos.photo.forEach(function(o){
+                console.log(getFlickrUrl(o));
+                $('#imageList').append("<img class='sImage' src='" + getFlickrUrl(o) +  "'>");
+                getCount();
+            })
         })
-    })
+    }
 
 
-    function getFlickrUrl(obj, size) {
+    function getFlickrUrl(obj) {
         return 'https://c2.staticflickr.com'
             + '/' + obj.farm
             + '/' + obj.server
@@ -36,16 +45,12 @@ $(document).ready(function() {
             + '_' + 'z' +'.jpg'
     }
 
+    //counter for number of images and current image
 
-
-
-
-
-//counter for number of images and current image
-
-    var countT = $('#imageList').find('img').length;
+    function getCount(){
+        var countT = $('#imageList').find('img').length;
         $('#total').text(countT); //displays total number of images
-console.log(countT);
+        console.log(countT);
 
         $('.sImage:gt(0)').hide(); //hide all images after first
 
@@ -63,12 +68,7 @@ console.log(countT);
                 $current.hide().next().fadeIn().show();
             }
         });
+    }
 
 
-
-
-
-
-
-
-    });
+});
