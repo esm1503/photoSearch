@@ -9,34 +9,38 @@ $(document).ready(function() {
             event.preventDefault();
             getUrl();
             $('#counter').show();
-
-
+            //reset
+            $('#pSearch').val('');
+            $('#imageList').empty();
+            $("#current").text("1");
         })
     };
 
     function addValue(){ //gathering data from input
         var tag = $('#pSearch').val();
             console.log(tag);
-        var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=1b140c4d5dd59b2dd69dd9ef2628156e&tags=' + tag + '&per_page=45&page=1&format=json&jsoncallback=?';
+        var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=895c6a33781e702e22a6bb958539f099&tags=' + tag + '&per_page=50&page=1&format=json&jsoncallback=?';
             console.log(url);
         return url
     }
 
-
     function getUrl(){
+        var tag = $('#pSearch').val();
         var url = addValue();
         console.log(url);
         $.getJSON(url, function(data){
+
             data.photos.photo.forEach(function(o){
                 console.log(getFlickrUrl(o));
                 $('#imageList').append("<img class='sImage' src='" + getFlickrUrl(o) +  "'>");
-
-
-
-
             })
+
             $('.sImage:gt(0)').hide(); //hide all images after first
             getCount();
+             if($('img').length == 0){
+                 $('#imageList').html('<h3>Sorry! There are no matches for ' + '"' + tag + '".</h3>');
+                 $('#counter').hide();
+             }
         })
     }
 
@@ -55,16 +59,10 @@ $(document).ready(function() {
         var countT = $('#imageList').find('img').length;
         $('#total').text(countT); //displays total number of images
         console.log(countT);
-
     }
 
 //click image to transition to next and return to first once the last image is clicked
     function slideTransition(){
-
-
-
-
-
 
         $('#imageList').on("click", '.sImage', function(){
             var $current = $(this);
@@ -81,13 +79,5 @@ $(document).ready(function() {
         });
 
     }
-
-
-    function resetSlides(){
-
-    }
-
-
-
 
 });
