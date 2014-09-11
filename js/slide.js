@@ -19,7 +19,7 @@ $(document).ready(function() {
     function addValue(){ //gathering data from input
         var tag = $('#pSearch').val();
             console.log(tag);
-        var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=895c6a33781e702e22a6bb958539f099&tags=' + tag + '&per_page=50&page=1&format=json&jsoncallback=?';
+        var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=2701794e0b4da06138d1de3ba7ba12a0&tags=' + tag + '&per_page=50&page=1&format=json&jsoncallback=?';
             console.log(url);
         return url
     }
