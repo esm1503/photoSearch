@@ -17,7 +17,7 @@ $(document).ready(function() {
     function addValue(){ //gathering data from input
         var tag = $('#pSearch').val();
             console.log(tag);
-        var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=5eda798e33d252fd67b008f3c0927134&tags=' + tag + '&per_page=5&page=1&format=json&jsoncallback=?';
+        var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=1b140c4d5dd59b2dd69dd9ef2628156e&tags=' + tag + '&per_page=45&page=1&format=json&jsoncallback=?';
             console.log(url);
         return url
     }
@@ -30,11 +30,12 @@ $(document).ready(function() {
             data.photos.photo.forEach(function(o){
                 console.log(getFlickrUrl(o));
                 $('#imageList').append("<img class='sImage' src='" + getFlickrUrl(o) +  "'>");
-                $('.sImage:gt(0)').hide(); //hide all images after first
+
 
 
 
             })
+            $('.sImage:gt(0)').hide(); //hide all images after first
             getCount();
         })
     }
@@ -59,10 +60,15 @@ $(document).ready(function() {
 
 //click image to transition to next and return to first once the last image is clicked
     function slideTransition(){
-        var $slides = $('.sImage');
+
+
+
+
+
 
         $('#imageList').on("click", '.sImage', function(){
             var $current = $(this);
+            var $slides = $('.sImage');
 
             if($current.is($slides.last())) {
                 $("#current").text("1");
